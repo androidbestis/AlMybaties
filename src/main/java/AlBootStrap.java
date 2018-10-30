@@ -19,6 +19,10 @@ public class AlBootStrap {
         //mybaties-config核心配置解析
         Configuration configuration = parse.doParse();
         logger.info("mybaties config has been parsed");
+
+        parse.doParseMapper(configuration.getMapperResource());
+
+
         //初始化数据库
         Connection connection = Connector.getConnection(configuration.getJdbcConnectInfo());
 

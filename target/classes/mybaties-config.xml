@@ -12,7 +12,7 @@
 
     <!-- 加载映射文件-->
     <almappers>
-        <almapper resource="com/mybatis/StudentMapper.xml"/>
+        <almapper resource="src/main/resources/StudentMapper.xml"/>
     </almappers>
 
 </alconfig>
