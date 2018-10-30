@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<alconfig>
+    <!--配置数据源-->
+    <alenvironments id="first_env">
+        <aldataSource>
+            <alproperty name="driver" value="com.mysql.jdbc.Driver" />
+            <alproperty name="url" value="jdbc:mysql://192.168.0.5:3306/test" />
+            <alproperty name="username" value="root" />
+            <alproperty name="password" value="1234" />
+        </aldataSource>
+    </alenvironments>
+
+    <!-- 加载映射文件-->
+    <almappers>
+        <almapper resource="com/mybatis/StudentMapper.xml"/>
+    </almappers>
+
+</alconfig>
