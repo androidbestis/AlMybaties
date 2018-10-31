@@ -1,4 +1,4 @@
-<mapper namespace="com.almybaties.dao.StudentMapper">
+<mapper namespace="com.almybaties.dao.mapper.StudentMapper">
 
     <select id="findbyid" parameterType="Integer" resultMap="StudentResult">
         select * from student where id = #{id}

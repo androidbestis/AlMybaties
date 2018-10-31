@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
 <alconfig>
-    <!--配置数据源-->
     <alenvironments id="first_env">
         <aldataSource>
             <alproperty name="driver" value="com.mysql.jdbc.Driver" />
@@ -10,7 +8,6 @@
         </aldataSource>
     </alenvironments>
 
-    <!-- 加载映射文件-->
     <almappers>
         <almapper resource="src/main/resources/StudentMapper.xml"/>
     </almappers>

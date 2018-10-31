@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
 <alconfig>
-    <!--配置数据源-->
     <alenvironments id="first_env">
         <aldataSource>
             <alproperty name="driver" value="com.mysql.jdbc.Driver" />
@@ -10,9 +8,11 @@
         </aldataSource>
     </alenvironments>
 
-    <!-- 加载映射文件-->
     <almappers>
-        <almapper resource="src/main/resources/StudentMapper.xml"/>
+        <almapper  resource="src/main/resources/StudentMapper.xml"/>
+        <alpackage name="com.almybaties.dao.mapper"/>
+        <almapper  class="com.almybaties.dao.mapper.StudentMapper"/>
+        <almapper  namespace="com.almybaties.dao.mapper.StudentMapper"/>
     </almappers>
 
 </alconfig>

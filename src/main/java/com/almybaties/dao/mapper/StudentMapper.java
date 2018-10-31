@@ -1,4 +1,4 @@
-package com.almybaties.dao;
+package com.almybaties.dao.mapper;
 
 import com.almybaties.entity.Student;
 

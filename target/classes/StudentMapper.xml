@@ -1,11 +1,11 @@
 <mapper namespace="com.almybaties.dao.StudentMapper">
 
     <select id="findbyid" parameterType="Integer" resultMap="StudentResult">
-        select * from student where id=#{id}
+        select * from student where id = #{id}
     </select>
 
     <select id="findbygradeid" parameterType="Integer" resultMap="StudentResult">
-        select * from student where gid=#{gid}
+        select * from student where gid = #{gid}
     </select>
 
     <resultMap type="Student" id="StudentResult">
