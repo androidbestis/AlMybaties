@@ -1,11 +1,16 @@
 <alconfig>
-    <alenvironments id="first_env">
-        <aldataSource>
-            <alproperty name="driver" value="com.mysql.jdbc.Driver" />
-            <alproperty name="url" value="jdbc:mysql://192.168.0.5:3306/test" />
-            <alproperty name="username" value="root" />
-            <alproperty name="password" value="1234" />
-        </aldataSource>
+    <alenvironments default="development">
+        <alenvironment id="development">
+            <!--事务管理器-->
+            <altransactionManager type="JDBC"/>
+
+            <aldataSource>
+                <alproperty name="driver" value="com.mysql.jdbc.Driver" />
+                <alproperty name="url" value="jdbc:mysql://192.168.0.5:3306/test" />
+                <alproperty name="username" value="root" />
+                <alproperty name="password" value="1234" />
+            </aldataSource>
+        </alenvironment>
     </alenvironments>
 
     <almappers>

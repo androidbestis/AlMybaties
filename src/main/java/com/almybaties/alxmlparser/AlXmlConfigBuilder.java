@@ -19,15 +19,22 @@ import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * parse mybatis config
+ * Parse Mybatis Config
  */
 public class AlXmlConfigBuilder {
 
+    private static final Logger logger =  LoggerFactory.getLogger(AlXmlConfigBuilder.class);
+
+    /**
+     * whether has been parsed ,the config of mybaties only can be parsed once.
+     * 解析标识,因为Configuration是全局变量，只需要解析创建一次即可，
+     * true表示已经解析创建过,false则表示没有
+     */
     private boolean parsed;
     private final AlXPathParser alXPathParser;
     private String environment;
 
-    private static Logger logger =  LoggerFactory.getLogger(AlXmlConfigBuilder.class);
+
     private Element root;  //Element 接口表示 XML 文档中的一个元素，根节点
     Configuration configuration = new Configuration();
     ConcurrentHashMap<String,String> map = new ConcurrentHashMap<String,String>();
