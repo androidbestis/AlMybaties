@@ -13,15 +13,15 @@ import java.util.Properties;
 
 /**
  * @author adonai
- * encapsulation Node
+ * encapsolation Node
  */
 @Data
 public class AlNode {
 
-    private final Node node;
-    private final String name;
+    private final Node node;               //node
+    private final String name;             //node name
 //    private final String body;
-    private final Properties attributes;
+    private final Properties attributes;   //node attributes
     private final Properties variables;
     private final AlXPathParser xpathParser;
 
@@ -43,7 +43,6 @@ public class AlNode {
                Node attribute = attributeNodes.item(i);
 
            }
-
         }
     }
 

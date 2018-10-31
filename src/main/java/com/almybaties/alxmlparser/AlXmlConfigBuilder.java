@@ -151,7 +151,9 @@ public class AlXmlConfigBuilder {
     public void mapperElement(AlNode mappers){
         if(mappers != null){
             for(AlNode child : mappers.getChildren()){
-               if("package".equals(child.getName())){
+               if("alpackage".equals(child.getName())){
+                   String mapperPackage = child.getStringAttribute("name");
+
 
                }
 

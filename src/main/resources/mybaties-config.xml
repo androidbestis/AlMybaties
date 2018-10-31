@@ -9,8 +9,8 @@
     </alenvironments>
 
     <almappers>
-        <almapper  resource="src/main/resources/StudentMapper.xml"/>
         <alpackage name="com.almybaties.dao.mapper"/>
+        <almapper  resource="src/main/resources/StudentMapper.xml"/>
         <almapper  class="com.almybaties.dao.mapper.StudentMapper"/>
         <almapper  namespace="com.almybaties.dao.mapper.StudentMapper"/>
     </almappers>
