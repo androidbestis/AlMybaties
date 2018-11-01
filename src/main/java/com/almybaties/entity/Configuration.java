@@ -14,15 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 public class Configuration {
 
-      private String alenvironmentsId;
       protected AlEnvironment environment;
-      private ConcurrentHashMap<String, String> jdbcConnectInfo;
-      private String mapperResource;
-      private HashMap<String, String> mapperInterface;
-      private HashMap<String, MapperEntity> mappedmap;
       protected Properties variables = new Properties();
-
-
       protected final Map<String,AlNode> sqlFragments = new StrictMap<AlNode>("XML fragments parsed from previous mappers");
       protected final Map<String, AlMappedStatement> mappedStatements = new StrictMap<AlMappedStatement>("Mapped Statements collection");
       protected final Set<String> loadedResources = new HashSet<String>();
@@ -119,4 +112,11 @@ public class Configuration {
             return loadedResources.contains(resource);
       }
 
+      public AlEnvironment getEnvironment() {
+            return environment;
+      }
+
+      public void setEnvironment(AlEnvironment environment) {
+            this.environment = environment;
+      }
 }

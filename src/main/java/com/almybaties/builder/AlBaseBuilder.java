@@ -13,4 +13,10 @@ public abstract class AlBaseBuilder {
         this.configuration = configuration;
     }
 
+    public Configuration getConfiguration() {
+        return configuration;
+    }
+
+
+
 }

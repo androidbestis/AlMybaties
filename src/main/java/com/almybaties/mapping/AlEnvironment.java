@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 public final class AlEnvironment {
 
     private final String id;      //environment`s id
-//  private final TransactionFactory transactionFactory;
+//  private final TransactionFactory transactionFactory;   //
     private final DataSource dataSource;   //environment`s datasource properties
 
     public AlEnvironment(String id , DataSource dataSource){
@@ -24,6 +24,23 @@ public final class AlEnvironment {
     }
 
 
+    public static class Builder{
 
+        private String id;
+        private DataSource datsSource;
 
+        public Builder(String id){
+            this.id = id;
+        }
+
+        public Builder dataSource(DataSource datsSource){
+            this.datsSource = datsSource;
+            return this;
+        }
+
+        public AlEnvironment build(){
+            return new AlEnvironment(this.id,this.datsSource);
+        }
+
+    }
 }
