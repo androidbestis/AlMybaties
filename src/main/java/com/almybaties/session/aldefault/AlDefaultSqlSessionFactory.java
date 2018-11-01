@@ -1,10 +1,12 @@
 package com.almybaties.session.aldefault;
 
 import com.almybaties.entity.Configuration;
+import com.almybaties.mapping.AlEnvironment;
 import com.almybaties.session.AlSqlSession;
 import com.almybaties.session.AlSqlSessionFactory;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -17,15 +19,14 @@ public class AlDefaultSqlSessionFactory implements AlSqlSessionFactory {
 
     public AlDefaultSqlSessionFactory(Configuration config){
         this.config = config;
-        System.out.println("AlDefaultSqlSessionFactory>>>>>>");
     }
 
-    public AlSqlSession openSession() {
+    /*public AlSqlSession openSession() {
         return openSessionFromDataSource(config.getJdbcConnectInfo());
-    }
+    }*/
 
     public AlSqlSession openSession(Connection connection) {
-        return null;
+        return openSessionFromDataSource(connection);
     }
 
     public Configuration getConfiguration() {
@@ -33,7 +34,20 @@ public class AlDefaultSqlSessionFactory implements AlSqlSessionFactory {
     }
 
     //openSession from config dataSource
-    private AlSqlSession openSessionFromDataSource(ConcurrentHashMap<String,String> jdbcConnectInfo) {
+    private AlSqlSession openSessionFromDataSource(Connection connection) {
+        boolean autoCommit;
+        try {
+            autoCommit = connection.getAutoCommit();
+        } catch (SQLException e) {
+            // Failover to true, as most poor drivers
+            // or databases won't support transactions
+            autoCommit = true;
+        }
+        final AlEnvironment environment = config.getEnvironment();
+
+
+
+
         return new AlDefaultSqlSession(config);
     }
 

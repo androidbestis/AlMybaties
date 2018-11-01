@@ -10,7 +10,7 @@ import java.sql.Connection;
  */
 public interface AlSqlSessionFactory {
 
-    AlSqlSession openSession();
+    //AlSqlSession openSession();
     AlSqlSession openSession(Connection connection);
     Configuration getConfiguration();
 }

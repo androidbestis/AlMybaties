@@ -1,5 +1,6 @@
 package com.almybaties.entity;
 
+import com.almybaties.parsing.AlPropertyParser;
 import com.almybaties.parsing.AlXPathParser;
 import com.sun.org.apache.xalan.internal.xsltc.compiler.XPathParser;
 import lombok.Data;
@@ -34,23 +35,32 @@ public class AlNode {
 //        this.body = parseBody(node);
     }
 
-    //parse Node`s attributes
+    //parse Node attributes
     private Properties parseAttributes(Node node) {
-        Properties properties = new Properties();
+        Properties attributes = new Properties();
         NamedNodeMap attributeNodes = node.getAttributes();
         if(null != attributeNodes){
            for(int i = 0;i < attributeNodes.getLength(); i++){
                Node attribute = attributeNodes.item(i);
-
+               String value = AlPropertyParser.parse(attribute.getNodeValue(), variables);
+               attributes.put(attribute.getNodeName(),value);
            }
         }
+        return attributes;
     }
 
+    //evaluate node by node name
     public AlNode evalNode(String expression) {
         return xpathParser.evalNode(node, expression);
     }
 
-    //get children nodes
+    //evaluate multiple nodes by node name
+    public List<AlNode> evalNodes(String expression){
+       return xpathParser.evalNodes(node,expression);
+    }
+
+
+    //obtain the children node
     public List<AlNode> getChildren() {
       List<AlNode> children = new ArrayList<AlNode>();
         NodeList nodeList = node.getChildNodes();
@@ -80,5 +90,20 @@ public class AlNode {
         }
     }
 
+
+    //gain the properties of children attribute
+    public Properties getChildrenAsProperties() {
+       Properties properties = new Properties();
+       for(AlNode child : getChildren()){
+          //gain the attribute of [name]
+           String name = child.getStringAttribute("name");
+           //gain the attribute of [value]
+           String value = child.getStringAttribute("value");
+           if(name != null && value != null){
+               properties.setProperty(name,value);
+           }
+       }
+       return properties;
+    }
 
 }

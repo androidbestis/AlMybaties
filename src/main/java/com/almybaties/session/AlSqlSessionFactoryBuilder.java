@@ -1,11 +1,8 @@
 package com.almybaties.session;
 
-import com.almybaties.alxmlparser.AlXmlConfigBuilder;
+import com.almybaties.parsing.AlXmlConfigBuilder;
 import com.almybaties.entity.Configuration;
 import com.almybaties.session.aldefault.AlDefaultSqlSessionFactory;
-
-import java.io.IOException;
-import java.io.Reader;
 import java.util.Properties;
 
 /**
@@ -27,7 +24,7 @@ public class AlSqlSessionFactoryBuilder {
         return build(xml,null, properties);
     }
 
-    /**  https://www.2cto.com/kf/201611/566987.html
+    /**
      * Main Entrance Of Analysis
      * @param xml            //Mybatis-config Path
      * @param environment    //环境参数  当前的环境id. alenvironments id  environment是当前环境，在配置文件节点environments中定义

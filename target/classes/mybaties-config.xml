@@ -1,15 +1,23 @@
 <alconfig>
-    <alenvironments id="first_env">
-        <aldataSource>
-            <alproperty name="driver" value="com.mysql.jdbc.Driver" />
-            <alproperty name="url" value="jdbc:mysql://192.168.0.5:3306/test" />
-            <alproperty name="username" value="root" />
-            <alproperty name="password" value="1234" />
-        </aldataSource>
+    <alenvironments default="development">
+        <alenvironment id="development">
+            <!--事务管理器-->
+            <altransactionManager type="JDBC"/>
+            <!-- 配置数据库连接信息 -->
+            <aldataSource type="POOLED">
+                <alproperty name="driver" value="com.mysql.jdbc.Driver" />
+                <alproperty name="url" value="jdbc:mysql://192.168.0.5:3306/test" />
+                <alproperty name="username" value="root" />
+                <alproperty name="password" value="1234" />
+            </aldataSource>
+        </alenvironment>
     </alenvironments>
 
     <almappers>
-        <almapper resource="src/main/resources/StudentMapper.xml"/>
+        <alpackage name="com.almybaties.dao.mapper"/>
+        <almapper  resource="src/main/resources/StudentMapper.xml"/>
+        <almapper  class="com.almybaties.dao.mapper.StudentMapper"/>
+        <almapper  namespace="com.almybaties.dao.mapper.StudentMapper"/>
     </almappers>
 
 </alconfig>

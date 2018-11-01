@@ -1,3 +1,4 @@
+import com.almybaties.session.AlSqlSession;
 import com.almybaties.session.AlSqlSessionFactory;
 import com.almybaties.session.AlSqlSessionFactoryBuilder;
 import org.slf4j.Logger;
@@ -12,6 +13,9 @@ public class AlBootStrap {
     public static void main(String[] args){
         //Create SqlSessionFactory
         AlSqlSessionFactory build = new AlSqlSessionFactoryBuilder().build(XML_APTH);
+        //Create SqlSession by SqlSessionFactory
+        //AlSqlSession alSqlSession = build.openSession();
+
 
     }
 }

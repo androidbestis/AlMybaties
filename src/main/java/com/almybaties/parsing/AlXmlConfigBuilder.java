@@ -1,27 +1,24 @@
-package com.almybaties.alxmlparser;
+package com.almybaties.parsing;
 
+import com.almybaties.builder.AlBaseBuilder;
+import com.almybaties.builder.AlBuilderException;
+import com.almybaties.builder.xml.AlXMLMapperBuilder;
 import com.almybaties.entity.AlNode;
 import com.almybaties.entity.Configuration;
-import com.almybaties.entity.MapperEntity;
-import com.almybaties.parsing.AlXPathParser;
+import com.almybaties.io.AlResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.*;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.HashMap;
+import java.io.InputStream;
 import java.util.Properties;
-import java.util.concurrent.ConcurrentHashMap;
+
 
 /**
  * Parse Mybatis Config
  */
-public class AlXmlConfigBuilder {
+public class AlXmlConfigBuilder extends AlBaseBuilder{
 
     private static final Logger logger =  LoggerFactory.getLogger(AlXmlConfigBuilder.class);
 
@@ -31,14 +28,16 @@ public class AlXmlConfigBuilder {
      * true表示已经解析创建过,false则表示没有
      */
     private boolean parsed;
+    /**
+     * 解析xml文件:包括检测xml文件格式
+     */
     private final AlXPathParser alXPathParser;
     private String environment;
 
 
-    private Element root;  //Element 接口表示 XML 文档中的一个元素，根节点
-    Configuration configuration = new Configuration();
-    ConcurrentHashMap<String,String> map = new ConcurrentHashMap<String,String>();
-    HashMap<String,MapperEntity> mapedmap = new HashMap<String, MapperEntity>();
+
+    /*ConcurrentHashMap<String,String> map = new ConcurrentHashMap<String,String>();
+    HashMap<String,MapperEntity> mapedmap = new HashMap<String, MapperEntity>();*/
 
     public AlXmlConfigBuilder(String xml) {
         this(xml,null);
@@ -53,11 +52,12 @@ public class AlXmlConfigBuilder {
     }
 
     private AlXmlConfigBuilder(AlXPathParser parser, String environment, Properties properties) {
+        super(new Configuration());
         this.parsed = false;
+        this.configuration.setVariables(properties);
         this.alXPathParser = parser;
         this.environment = environment;
     }
-
 
     //parse xml
     public Configuration parse()  {
@@ -69,8 +69,9 @@ public class AlXmlConfigBuilder {
           }
       }
       parsed = true;
-      //解析XML
+      //judge the node by node name
       AlNode alconfig = alXPathParser.evalNode("alconfig");
+      //解析XML
       parseConfiguration(alconfig);
       return configuration;
     }
@@ -106,7 +107,61 @@ public class AlXmlConfigBuilder {
     }
 
     //parse environments
-    public Configuration environmentsElement(AlNode environments){
+    private void environmentsElement(AlNode environments){
+      if(environments != null){
+         if(environment == null){
+             environment =  environments.getStringAttribute("default");
+         }
+         for(AlNode child : environments.getChildren()){
+             String id = child.getStringAttribute("id");
+             if(isSpecifiedEnvironment(id)){
+                //1.Transaction Handle Parse
+                 AlNode altransactionManager = child.evalNode("altransactionManager");
+
+
+                 //2.DataSource Handle Parse
+                AlNode aldataSource = child.evalNode("aldataSource");
+                dataSourceElement(aldataSource);
+             }
+         }
+
+      }
+
+
+
+
+    }
+
+    //configuration datasource element handles
+    private void dataSourceElement(AlNode aldataSource) {
+       if(aldataSource != null){
+           String type = aldataSource.getStringAttribute("type");
+           //obtain aldataSource children properties
+           Properties props = aldataSource.getChildrenAsProperties();
+
+
+       }
+       throw new AlBuilderException("");
+    }
+
+    //validate Environment id
+    private boolean isSpecifiedEnvironment(String id) {
+       if(environment == null){
+         throw new AlBuilderException("No environment specified.");
+       }
+       else if(id == null){
+         throw  new AlBuilderException("Environment requires an id attribute.");
+       }
+       //alenvironments default="development"  ==  alenvironment id="development"
+       else if(environment.equals(id)){
+          return true;
+       }
+       return false;
+    }
+
+
+    //parse environments
+   /* public Configuration environmentsElement(AlNode environments){
         Node node = environments.getNode();
         NodeList env_childNodes = node.getChildNodes();
         System.out.println("env_childNodes: " + env_childNodes.getLength());
@@ -153,15 +208,31 @@ public class AlXmlConfigBuilder {
         }
          return configuration;
     }
-
+*/
     //parse mappers
-    public void mapperElement(AlNode mappers){
+    public void mapperElement(AlNode mappers) throws IOException {
         if(mappers != null){
             for(AlNode child : mappers.getChildren()){
                if("alpackage".equals(child.getName())){
                    String mapperPackage = child.getStringAttribute("name");
 
+               }else{
+                   String resource = child.getStringAttribute("resource");
+                   String mapperClass = child.getStringAttribute("class");
+                   String url = child.getStringAttribute("url");
+                   if(resource != null && mapperClass == null && url == null){
+                       InputStream inputstream = AlResources.getResourcesAsStream(resource);
+                       AlXMLMapperBuilder mapperParser = new AlXMLMapperBuilder(inputstream, configuration, resource, configuration.getSqlFragments());
+                       mapperParser.parse();
+                   }else if(resource == null && mapperClass != null && url == null){
 
+
+                   }else if(resource == null && mapperClass == null && url != null){
+
+
+                   }else{
+                       throw new AlBuilderException("A mapper element may only specify a url, resource or class, but not more than one.");
+                   }
                }
 
             }
