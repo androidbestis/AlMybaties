@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * XML Mapper config file parse
  * @author adonai
  */
 public class AlXMLMapperBuilder extends AlBaseBuilder{
