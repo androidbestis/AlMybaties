@@ -3,8 +3,23 @@
 <mapper namespace="com.qbd.mapper.StudentMappers">
 
     <!--Mybaties Cache Setting-->
-    <cache eviction="FIFO" flushInterval="60000" readOnly="false" size="1024"/>
+    <cache type="PERPETUAL" eviction="LRU" flushInterval="60000" size="512" readOnly="true" />
     <cache-ref namespace="com.someone.application.data.SomeMapper"/>
+
+    <insert id="addEmp" parameterType="com.atguigu.mybatis.bean.Employee"
+            useGeneratedKeys="true" keyProperty="id" databaseId="mysql">
+        insert into tbl_employee(last_name,email,gender)
+        values(#{lastName},#{email},#{gender})
+    </insert>
+
+    <delete
+            id="deleteUser"
+            parameterType="com.demo.User"
+            flushCache="true"
+            statementType="PREPARED"
+            timeout="20">
+
+    </delete>
 
     <select id="findbyid" parameterType="Integer" resultMap="StudentResult">
         select *from student where id=#{id}

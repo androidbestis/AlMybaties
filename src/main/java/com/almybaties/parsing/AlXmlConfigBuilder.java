@@ -96,12 +96,14 @@ public class AlXmlConfigBuilder extends AlBaseBuilder{
              if(isSpecifiedEnvironment(id)){
                 //1.Transaction Handle Parse
                  AlNode altransactionManager = child.evalNode("altransactionManager");
+                 //解析transactionManager节点配置信息
                  transactionManagerElement(altransactionManager);
 
                  //2.DataSource Handle Parse
                 AlNode aldataSource = child.evalNode("aldataSource");
                 AlDataSourceFactory dsFactory = dataSourceElement(aldataSource);
                 DataSource dataSource = dsFactory.getDataSource();
+                //这里使用了<委派设计模式>
                 AlEnvironment.Builder builder = new AlEnvironment.Builder(id).dataSource(dataSource);
                 configuration.setEnvironment(builder.build());
              }

@@ -13,8 +13,10 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Data
 public class Configuration {
-
+      //保存Environment节点里配置信息
       protected AlEnvironment environment;
+      //environment id attribute
+      protected String databaseId;
       protected Properties variables = new Properties();
       protected final Map<String,AlNode> sqlFragments = new StrictMap<AlNode>("XML fragments parsed from previous mappers");
       protected final Map<String, AlMappedStatement> mappedStatements = new StrictMap<AlMappedStatement>("Mapped Statements collection");

@@ -41,14 +41,28 @@ public class AlXMLMapperBuilder extends AlBaseBuilder{
 
     }
 
+    //解析mapper.xml映射信息
     private void configurationElement(AlNode context) {
-      //parse select|insert|update|delete
-      buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
+            //parse select|insert|update|delete
+            buildStatementFromContext(context.evalNodes("select|insert|update|delete"));
+
+
+    }
+
+    //解析select|insert|update|delete节点信息
+    private void buildStatementFromContext(List<AlNode> alNodes) {
+        if(configuration.getDatabaseId() != null){
+            buildStatementFromContext(alNodes,configuration.getDatabaseId());
+        }
+            buildStatementFromContext(alNodes,null);
     }
 
 
-    private void buildStatementFromContext(List<AlNode> list) {
+    private void buildStatementFromContext(List<AlNode> list,String requiredDatabaseId) {
+        for(AlNode context : list){
 
+
+        }
 
     }
 }
